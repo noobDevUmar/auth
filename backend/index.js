@@ -1,8 +1,28 @@
-const express = require("express");
-const { dbConnect } = require("./db/dbConnection");
+import express from "express";
+import dbConnect from "./db/dbConnection.js"
+import dotenv from 'dotenv';
+dotenv.config()
 const app = express();
-require("dotenv").config()
+
+import authRoutes from "./routes/auth.js"
+app.use(express.json())
 
 
 app.listen(process.env.PORT)
 dbConnect()
+app.use('/auth',authRoutes)
+
+
+// Server Error Handling 
+app.use((err,req,res,next)=>{
+
+    const statusCode = err.statusCode || 501;
+    const message = err.message || 'Internal Server Error';
+
+    res.status(statusCode).json({
+        success:"false",
+        message,
+        statusCode
+    })
+
+})
