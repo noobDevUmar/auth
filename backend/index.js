@@ -13,7 +13,7 @@ dbConnect()
 app.use('/auth',authRoutes)
 
 
-// Server Error Handling 
+// Server Error handling
 app.use((err,req,res,next)=>{
 
     const statusCode = err.statusCode || 501;
