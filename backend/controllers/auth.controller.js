@@ -1,7 +1,10 @@
 import UserModel from "../models/UserModel.js"
 import {ErrorHandling} from "../utils/CustomError.js"
+import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 let  salt = bcrypt.genSaltSync(10)
+
+
 
 export const signUp = async (req, res, next) => {
   const { username, password, email } = req.body;
@@ -23,16 +26,23 @@ export const signUp = async (req, res, next) => {
 };
 
 export const signIn = async(req,res,next)=>{
-   let { email,password }= req.body;
-
-   let validUser = await UserModel.findOne({email})
+   let { username,password }= req.body;
+try {
+  
+   let validUser = await UserModel.findOne({email:username})
    if(!validUser) return next(ErrorHandling(401,"User not Found"))
 
    let validpassword = bcrypt.compareSync(password,validUser.password)
    if(!validpassword) return next(ErrorHandling(401,"passord did not matched"))
 
-   res.json({
-      message:
-      "User Matched"
-   })
+   // Generate a token 
+
+  const token= jwt.sign({username,username:validUser.username},"mysecretkey");
+  res.cookie('token',token).json(validUser).status(200)
+
+} catch (error) {
+  next(error)
+}
+
+  
 }

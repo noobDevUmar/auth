@@ -1,11 +1,14 @@
 import express from "express";
 import dbConnect from "./db/dbConnection.js"
 import dotenv from 'dotenv';
-dotenv.config()
+dotenv.config();
+import cors from "cors";
 const app = express();
-
 import authRoutes from "./routes/auth.js"
 app.use(express.json())
+app.use(cors({
+    origin: "http://localhost:5173"
+}))
 
 
 app.listen(process.env.PORT)

@@ -1,18 +1,29 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from "axios";
 
 const Home = () => {
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
   
-  
+  let handlesubmit= async(e)=>{
+e.preventDefault();
+
+try {
+  let user = await axios.post("http://localhost:3000/auth/login",{username,password})
+  console.log(user);
+} catch (error) {
+  console.log(error);
+}
+ 
+  }
   
     return (
       <div className="mt-4 grow flex item-center justify-around">
        
       <div className="mt-32">
         <h1 className="text-4xl text-center mb-4">Login</h1>
-        <form className="max-w-md 2xl mx-auto border mt-2" >
+        <form className="max-w-md 2xl mx-auto border mt-2" onSubmit={handlesubmit}>
   
           <input type="text" value={username} placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
   
