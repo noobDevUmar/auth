@@ -6,13 +6,15 @@ import Navbar from '../components/Navbar'
 import Home from '../components/Home'
 import { BrowserRouter , Routes,Route } from 'react-router-dom'
 import Login from '../pages/Login'
-
+import UserContextProvider from "../components/Context/UserContext"
 
 
 function App() {
 
 
   return (
+    <UserContextProvider>
+
 <BrowserRouter >
 <Navbar/>
 
@@ -25,6 +27,7 @@ function App() {
 </Routes>
 
 </BrowserRouter>
+    </UserContextProvider>
   )
 }
 

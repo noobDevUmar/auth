@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import axios from "axios";
+import {UserContext} from './Context/UserContext'
+import Profile from './Profile';
 
 const Home = () => {
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
-  
+  const {setUser} = useContext(UserContext)
   let handlesubmit= async(e)=>{
 e.preventDefault();
 
 try {
-  let user = await axios.post("http://localhost:3000/auth/login",{username,password})
-  console.log(user);
+  let user = await axios.post("http://localhost:3000/auth/login",{email:username,password})
+  setUser({username:user?.data.username})
+  console.log(user);  
 } catch (error) {
   console.log(error);
 }
@@ -38,7 +41,7 @@ try {
             <Link to={'/register'} className="underline text-black"> Register now</Link>
           </div>
         </form>
-  
+  <Profile/>
   
       </div>
     </div>
