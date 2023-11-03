@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from './Context/UserContext';
+
 
 const Navbar = () => {
+
+const {user} =  useContext(UserContext)
+console.log("data" , user);
   return (
     <div className='flex px-3 justify-around'>
       <div className=""> 
@@ -14,9 +19,9 @@ const Navbar = () => {
 
         </ul>
       </div>
-      <div className="flex">
-      <div className="">Welcome</div>
-      <div className="">Name</div>
+      <div className="flex gap-3">
+      <div className="">Welcome </div>
+      <div className=" "> {user?.username}</div>
 
 
       </div>

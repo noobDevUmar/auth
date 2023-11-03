@@ -7,14 +7,15 @@ import Profile from './Profile';
 const Home = () => {
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
-  const {setUser} = useContext(UserContext)
+  const {setUser,user} = useContext(UserContext)
   let handlesubmit= async(e)=>{
 e.preventDefault();
 
 try {
-  let user = await axios.post("http://localhost:3000/auth/login",{email:username,password})
-  setUser({username:user?.data.username})
-  console.log(user);  
+  let userr = await axios.post("http://localhost:3000/auth/login",{email:username,password})
+  setUser({userr})
+  localStorage.setItem('token',userr.data.token)
+
 } catch (error) {
   console.log(error);
 }

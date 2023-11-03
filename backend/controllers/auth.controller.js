@@ -39,8 +39,14 @@ const {password:hashedpassword,...rest} = validUser._doc
    
 
    // Generate a token 
-  const token= jwt.sign({id:validUser._id},process.env.secret);
-  res.cookie('token',token).json(rest).status(200)
+  const token= jwt.sign({id:validUser._id},process.env.secret,{expiresIn:'1h'});
+  console.log("signed in");
+  // res.cookie('token', token).json(rest);
+  let data = {
+    'token':token,
+    data:rest
+  }
+  res.json(data)
 
 } catch (error) {
   next(error)
