@@ -32,18 +32,23 @@ app.use((err,req,res,next)=>{
 
 })
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async(req, res) => {
 
   
     const token = req.headers.authorization.split(' ')[1];
     console.log(token);
     if (token) {
-      jwt.verify(token, process.env.secret, {}, async (err, usertoken) => {
-        if (err) throw err;
-        const {  email, _id,username} = await UserModel.findById(usertoken.id);
+    //   jwt.verify(token, process.env.secret, {}, async (err, usertoken) => {
+    //     if (err) throw err;
+    //     const {  email, _id,username} = await UserModel.findById(usertoken.id);
   
-        res.json({  email, _id,username });
-      });
+    //     res.json({  email, _id,username });
+    //   });
+      const verification = jwt.verify(token,process.env.secret)
+      if(!verification) throw console.error("error");
+
+      const {email,_id,username} = await UserModel.findById(usertoken.id);
+      res.json({  email, _id,username });
     } else {
       res.json(null);
     }
